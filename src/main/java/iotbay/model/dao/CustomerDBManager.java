@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class CustomerDBManager {
-//    Ask if these needs to implement serializable...
     private Statement stmt;
 
     public CustomerDBManager(Connection conn) throws SQLException {
@@ -17,7 +16,6 @@ public class CustomerDBManager {
             String customerPassword,
             String customerFirstName,
             String customerLastName,
-
             String customerDOB,
             String customerPhone
             ) throws SQLException
@@ -49,7 +47,7 @@ public class CustomerDBManager {
         }
         return null;
     }
-    public ArrayList<Customer> fetchStudent() throws SQLException {
+    public ArrayList<Customer> fetchCustomers() throws SQLException {
         ResultSet rs = stmt.executeQuery("SELECT * FROM CUSTOMER");
         ArrayList<Customer> temp = new ArrayList<>();
 
