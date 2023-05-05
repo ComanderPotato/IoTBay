@@ -20,16 +20,8 @@ public class CustomerController {
             Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//
+
 //    public void addCustomer() {
 //        db.addCustomer();
-//    }
-//    public static void main(String[] args) {
-//        try {
-////            Ask tutor about if all customer related task should be in the customercontroller
-////            or should they be in the controller that is authorised to do so.
-//        }catch(ClassNotFoundException | SQLException ex) {
-//            Logger.getLogger(TestDB.class.getName()).log(Level.SEVERE, null, ex);
-//        }
 //    }
 }
