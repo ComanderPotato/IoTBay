@@ -5,9 +5,11 @@ import java.util.ArrayList;
 
 public class CustomerDBManager {
     private Statement stmt;
-
+    private PreparedStatement prepStmt;
+    private Connection conn;
     public CustomerDBManager(Connection conn) throws SQLException {
         stmt = conn.createStatement();
+        this.conn = conn;
     }
 
     public void addCustomer
@@ -20,19 +22,27 @@ public class CustomerDBManager {
             String customerPhone
             ) throws SQLException
     {
-        stmt.executeUpdate(String.format("INSERT INTO CUSTOMER "
-                        + "(customerEmail, customerPassword, customerFirstName, " +
-                        "customerLastName, customerDOB, customerPhone)"
-                        + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
-                customerEmail, customerPassword, customerFirstName,
-                customerLastName, customerDOB, customerPhone));
-    }
-    public void deleteCustomer(String email) throws SQLException {
-        stmt.executeUpdate("DELETE FROM CUSTOMER WHERE EMAIL='" + email + "';");
+        prepStmt = conn.prepareStatement(
+                            "INSERT INTO CUSTOMER " +
+                                "(customerEmail, customerPassword, customerFirstName, " +
+                                "customerLastName, customerDOB, customerPhone) VALUES (?, ? ,? ,? ,? ,?);");
+        prepStmt.setString(1, customerEmail);
+        prepStmt.setString(2, customerPassword);
+        prepStmt.setString(3, customerFirstName);
+        prepStmt.setString(4, customerLastName);
+        prepStmt.setString(5, customerDOB);
+        prepStmt.setString(6, customerPhone);
+        prepStmt.executeUpdate();
+        prepStmt.close();
+
     }
     public Customer findCustomer(String email, String password) throws SQLException {
-        String sql = "SELECT * FROM CUSTOMER WHERE EMAIL='" + email + "' AND PASSWORD='" + password + "';";
-        ResultSet rs = stmt.executeQuery(sql);
+        prepStmt = conn.prepareStatement("SELECT * FROM CUSTOMER WHERE EMAIL='?' AND PASSWORD='?';");
+        prepStmt.setString(1, email);
+        prepStmt.setString(2, password);
+
+        ResultSet rs = prepStmt.executeQuery();
+        prepStmt.close();
         while(rs.next()) {
             String customerEmail = rs.getString("customerEmail");
             String customerPassword = rs.getString("customerPassword");
@@ -47,7 +57,7 @@ public class CustomerDBManager {
         }
         return null;
     }
-    public ArrayList<Customer> fetchCustomers() throws SQLException {
+    public ArrayList<Customer> getCustomers() throws SQLException {
         ResultSet rs = stmt.executeQuery("SELECT * FROM CUSTOMER");
         ArrayList<Customer> temp = new ArrayList<>();
 
