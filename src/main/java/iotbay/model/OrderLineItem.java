@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class OrderLineItem implements Serializable {
     private int itemID;
+    private int orderID;
     private int productID;
     private int itemQuantity;
     private double itemTotal;
@@ -32,8 +33,16 @@ public class OrderLineItem implements Serializable {
         return itemID;
     }
 
-     public void setItemID(int itemID) {
+    public void setItemID(int itemID) {
         this.itemID = itemID;
+    }
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
     }
 
     public int getProductID() {
