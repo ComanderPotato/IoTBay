@@ -37,7 +37,7 @@ public class CustomerDBManager {
 
     }
     public Customer findCustomer(String email, String password) throws SQLException {
-        prepStmt = conn.prepareStatement("SELECT * FROM CUSTOMER WHERE EMAIL='?' AND PASSWORD='?';");
+        prepStmt = conn.prepareStatement("SELECT * FROM CUSTOMER WHERE EMAIL = ? AND PASSWORD = ?;");
         prepStmt.setString(1, email);
         prepStmt.setString(2, password);
 

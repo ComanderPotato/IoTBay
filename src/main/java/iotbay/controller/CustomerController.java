@@ -21,7 +21,4 @@ public class CustomerController {
         }
     }
 
-//    public void addCustomer() {
-//        db.addCustomer();
-//    }
 }

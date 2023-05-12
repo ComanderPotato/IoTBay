@@ -32,7 +32,7 @@ public class OrderLineItem implements Serializable {
         return itemID;
     }
 
-    public void setItemID(int itemID) {
+     public void setItemID(int itemID) {
         this.itemID = itemID;
     }
 
@@ -59,4 +59,5 @@ public class OrderLineItem implements Serializable {
     public void setItemTotal(double itemTotal) {
         this.itemTotal = itemTotal;
     }
+
 }

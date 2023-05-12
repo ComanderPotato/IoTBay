@@ -13,7 +13,7 @@ public class AccountManagementDBManager {
     }
 
     public UserAccount findAccount(String userAccountID) throws SQLException {
-        prepStmt = conn.prepareStatement("SELECT * FROM USERACCOUNT WHERE ID='?';");
+        prepStmt = conn.prepareStatement("SELECT * FROM USERACCOUNT WHERE ID=?;");
         prepStmt.setString(1, userAccountID);
         ResultSet rs = prepStmt.executeQuery();
         while(rs.next()) {
