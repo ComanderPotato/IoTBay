@@ -1,7 +1,7 @@
 package iotbay.model;
 
 import java.io.Serializable;
-public class Invoice implements Serializable {
+public class xInvoice implements Serializable {
     private int invoiceID;
     private int userAccountID;
     private int orderID;

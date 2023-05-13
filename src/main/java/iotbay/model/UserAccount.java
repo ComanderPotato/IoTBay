@@ -11,10 +11,15 @@ public class UserAccount implements Serializable {
     private int orderID;
     private int orderTrackingID;
     private int addressID;
-    private int cardID;
+    private int cartID;
     public UserAccount() {
     }
 
+    public UserAccount(int userAccountID, int customerID, int registrationID) {
+        this.userAccountID = userAccountID;
+        this.customerID = customerID;
+        this.registrationID = registrationID;
+    }
     public UserAccount(
             int userAccountID,
             int customerID,
@@ -24,7 +29,7 @@ public class UserAccount implements Serializable {
             int orderID,
             int orderTrackingID,
             int addressID,
-            int cardID
+            int cartID
     ) {
         this.userAccountID = userAccountID;
         this.customerID = customerID;
@@ -34,7 +39,7 @@ public class UserAccount implements Serializable {
         this.orderID = orderID;
         this.orderTrackingID = orderTrackingID;
         this.addressID = addressID;
-        this.cardID = cardID;
+        this.cartID = cartID;
     }
 
     public int getUserAccountID() {
@@ -102,10 +107,10 @@ public class UserAccount implements Serializable {
     }
 
     public int getCardID() {
-        return cardID;
+        return cartID;
     }
 
     public void setCardID(int cardID) {
-        this.cardID = cardID;
+        this.cartID = cardID;
     }
 }

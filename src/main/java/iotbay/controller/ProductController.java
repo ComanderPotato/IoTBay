@@ -15,7 +15,7 @@ public class ProductController {
             conn = connector.openConnection();
             db = new ProductDBManager(conn);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

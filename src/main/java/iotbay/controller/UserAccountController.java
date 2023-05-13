@@ -1,22 +1,21 @@
 package iotbay.controller;
-import iotbay.model.OrderLineItem;
 import iotbay.model.dao.DBConnector;
-import iotbay.model.dao.OrderLineItemDBManager;
+import iotbay.model.dao.UserAccountDBManager;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class OrderLineItemController {
+public class UserAccountController {
     private DBConnector connector;
     private Connection conn;
-    private OrderLineItemDBManager db;
-    public OrderLineItemController() {
+    private UserAccountDBManager db;
+    public UserAccountController() {
         try {
             connector = new DBConnector();
             conn = connector.openConnection();
-            db = new OrderLineItemDBManager(conn);
+            db = new UserAccountDBManager(conn);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(OrderLineItemController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserAccountController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
