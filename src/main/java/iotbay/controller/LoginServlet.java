@@ -1,78 +1,56 @@
-//package iotbay.controller;
-//
-//import java.io.IOException;
-//import java.sql.SQLException;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
-//import jakarta.servlet.ServletException;
-//
-//import jakarta.servlet.http.HttpServlet;
-//
-//import jakarta.servlet.http.HttpServletRequest;
-//
-//import jakarta.servlet.http.HttpServletResponse;
-//
-//import jakarta.servlet.http.HttpSession;
-//
-////import uts.isd.model.User;
-//
-//
-//public class LoginServlet extends HttpServlet {
-//
-//
-//    @Override
-//
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response)   throws ServletException, IOException {
-//
-//        //1- retrieve the current session
-//
-//        //2- create an instance of the Validator class
-//
-//        //3- capture the posted email
-//
-//        //4- capture the posted password
-//
-//        //5- retrieve the manager instance from session
-//
-//        User user = null;
-//
-//        try {
-//            //6- find user by email and password
-//
-//
-//
-//        } catch (SQLException ex) {
-//
-//            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-//
-//        }
-//
-//
-//        if (     /*7-   validate email  */   ) {
-//
-//            //8-set incorrect email error to the session
-//
-//            //9- redirect user back to the login.jsp
-//
-//        } else if ( /*10-   validate password  */ ) {
-//
-//            //11-set incorrect password error to the session
-//
-//            //12- redirect user back to the login.jsp
-//
-//        } else if (user != null) {
-//
-//            //13-save the logged in user object to the session
-//
-//            //14- redirect user to the main.jsp
-//
-//        } else {
-//
-//            //15-set user does not exist error to the session
-//
-//            //16- redirect user back to the login.jsp
-//
-//        }
-//
-//    }
-//    }
+package iotbay.controller;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import iotbay.model.dao.CustomerDBManager;
+import jakarta.servlet.ServletException;
+
+import jakarta.servlet.http.HttpServlet;
+
+import jakarta.servlet.http.HttpServletRequest;
+
+import jakarta.servlet.http.HttpServletResponse;
+
+import jakarta.servlet.http.HttpSession;
+import iotbay.model.Customer;
+
+
+public class LoginServlet extends HttpServlet {
+    @Override
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)   throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        Validator validator = new Validator();
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        CustomerDBManager manager = (CustomerDBManager) session.getAttribute("manager");
+        Customer customer = null;
+        validator.clear(session);
+
+       if(!validator.validateEmail(email)) {
+           session.setAttribute("emailErr", "Error: Email format incorrect");
+           request.getRequestDispatcher("login.jsp").include(request, response);
+       } else if(!validator.validatePassword(password)) {
+           session.setAttribute("passErr", "Error: Password format incorrect");
+           request.getRequestDispatcher("login.jsp").include(request, response);
+       } else {
+           try {
+               customer = manager.findCustomer(email, password);
+               if(customer != null) {
+                   session.setAttribute("customer", customer);
+                   request.getRequestDispatcher("main.jsp").include(request, response);
+               } else {
+                   session.setAttribute("existErr", "Error: Customer does not exist");
+                   request.getRequestDispatcher("login.jsp").include(request, response);
+               }
+           } catch (SQLException | NullPointerException ex) {
+               System.out.println(ex.getMessage() == null ? "Customer does not exist" : "Welcome");
+           }
+       }
+
+    }
+}

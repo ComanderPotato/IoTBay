@@ -1,5 +1,5 @@
 package iotbay.model.dao;
-import iotbay.model.Order;
+import iotbay.model.Product;
 import iotbay.model.OrderLineItem;
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,11 +14,20 @@ public class OrderLineItemDBManager {
         this.conn = conn;
     }
 
-    public void addItem(int productID) throws SQLException {
-
+    public void addItem(int orderID, Product product, int itemQuantity) throws SQLException {
+        prepStmt = conn.prepareStatement("INSERT INTO ORDERLINEITEMS " +
+                "(ORDERID, PRODUCTID, ITEMQUANTITY, ITEMTOTAL)" +
+                "VALUES (?, ?, ?, ?)");
+        prepStmt.setInt(1, orderID);
+        prepStmt.setInt(2, product.getProductID());
+        prepStmt.setInt(3, itemQuantity);
+        prepStmt.setDouble(4, product.getProductCost());
+        prepStmt.executeUpdate();
+        prepStmt.close();
+        conn.close();
     }
 
-    public void updateItem() throws SQLException {
+    public void updateItem(int itemID, int newQuantity) throws SQLException {
 
     }
 
