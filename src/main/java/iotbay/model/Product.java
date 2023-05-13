@@ -106,7 +106,7 @@ public class Product implements Serializable {
         this.productCost = productCost;
     }
 
-    public boolean isProductAvailability() {
+    public boolean isProductAvailable() {
         return productAvailability;
     }
 

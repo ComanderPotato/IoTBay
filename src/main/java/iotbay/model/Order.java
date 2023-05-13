@@ -1,6 +1,7 @@
 package iotbay.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Order implements Serializable {
     private int orderID;
@@ -10,12 +11,10 @@ public class Order implements Serializable {
     private double orderTotal;
     private String orderDate;
     private String orderStatus;
+    private ArrayList<OrderLineItem> orderLineItems;
+
     public Order() {
 
-    }
-
-    public int getOrderID() {
-        return orderID;
     }
 
     public Order(double orderTotal, String orderDate, String orderStatus) {
@@ -26,7 +25,6 @@ public class Order implements Serializable {
 
     public Order(
             int orderID,
-            int orderLineItemID,
             int userAccountID,
             int addressID,
             int paymentID,
@@ -35,7 +33,6 @@ public class Order implements Serializable {
             String orderStatus
     ) {
         this.orderID = orderID;
-        this.orderLineItemID = orderLineItemID;
         this.userAccountID = userAccountID;
         this.addressID = addressID;
         this.paymentID = paymentID;
@@ -43,19 +40,32 @@ public class Order implements Serializable {
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
     }
+    public Order(
+            int orderID,
+            int userAccountID,
+            int addressID,
+            int paymentID,
+            double orderTotal,
+            String orderDate,
+            String orderStatus,
+            ArrayList<OrderLineItem> orderLineItems
+            ) {
+        this.orderID = orderID;
+        this.userAccountID = userAccountID;
+        this.addressID = addressID;
+        this.paymentID = paymentID;
+        this.orderTotal = orderTotal;
+        this.orderDate = orderDate;
+        this.orderStatus = orderStatus;
+        this.orderLineItems = orderLineItems;
 
+    }
+    public int getOrderID() {
+        return orderID;
+    }
     public void setOrderID(int orderID) {
         this.orderID = orderID;
     }
-
-    public int getOrderLineItemID() {
-        return orderLineItemID;
-    }
-
-    public void setOrderLineItemID(int orderLineItemID) {
-        this.orderLineItemID = orderLineItemID;
-    }
-
     public int getUserAccountID() {
         return userAccountID;
     }
@@ -102,5 +112,11 @@ public class Order implements Serializable {
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
+    }
+    public ArrayList<OrderLineItem> getOrderLineItemID() {
+        return orderLineItems;
+    }
+    public void setOrderLineItemID(ArrayList<OrderLineItem> orderLineItemID) {
+        this.orderLineItems = orderLineItems;
     }
 }

@@ -19,11 +19,13 @@ public class OrderLineItem implements Serializable {
 
     public OrderLineItem(
             int itemID,
+            int orderID,
             int productID,
             int itemQuantity,
             double itemTotal
     ) {
         this.itemID = itemID;
+        this.orderID = orderID;
         this.productID = productID;
         this.itemQuantity = itemQuantity;
         this.itemTotal = itemTotal;
