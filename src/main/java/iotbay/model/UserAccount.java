@@ -5,38 +5,31 @@ import java.io.Serializable;
 public class UserAccount implements Serializable {
     private int userAccountID;
     private int customerID;
-    private int registrationID;
     private int paymentID;
     private int orderHistoryID;
-    private int orderID;
     private int orderTrackingID;
     private int addressID;
     private int cartID;
     public UserAccount() {
     }
 
-    public UserAccount(int userAccountID, int customerID, int registrationID) {
+    public UserAccount(int userAccountID, int customerID) {
         this.userAccountID = userAccountID;
         this.customerID = customerID;
-        this.registrationID = registrationID;
     }
     public UserAccount(
             int userAccountID,
             int customerID,
-            int registrationID,
             int paymentID,
             int orderHistoryID,
-            int orderID,
             int orderTrackingID,
             int addressID,
             int cartID
     ) {
         this.userAccountID = userAccountID;
         this.customerID = customerID;
-        this.registrationID = registrationID;
         this.paymentID = paymentID;
         this.orderHistoryID = orderHistoryID;
-        this.orderID = orderID;
         this.orderTrackingID = orderTrackingID;
         this.addressID = addressID;
         this.cartID = cartID;
@@ -58,14 +51,6 @@ public class UserAccount implements Serializable {
         this.customerID = customerID;
     }
 
-    public int getRegistrationID() {
-        return registrationID;
-    }
-
-    public void setRegistrationID(int registrationID) {
-        this.registrationID = registrationID;
-    }
-
     public int getPaymentID() {
         return paymentID;
     }
@@ -80,14 +65,6 @@ public class UserAccount implements Serializable {
 
     public void setOrderHistoryID(int orderHistoryID) {
         this.orderHistoryID = orderHistoryID;
-    }
-
-    public int getOrderID() {
-        return orderID;
-    }
-
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
     }
 
     public int getOrderTrackingID() {

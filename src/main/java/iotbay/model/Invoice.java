@@ -3,7 +3,7 @@ package iotbay.model;
 import java.io.Serializable;
 public class Invoice implements Serializable {
     private int invoiceID;
-    private int userAccountID;
+    private int orderHistoryID;
     private int orderID;
     private int paymentID;
     private String orderDate;
@@ -28,7 +28,7 @@ public class Invoice implements Serializable {
 
     public Invoice(
             int invoiceID,
-            int userAccountID,
+            int orderHistoryID,
             int orderID,
             int paymentID,
             String orderDate,
@@ -37,7 +37,7 @@ public class Invoice implements Serializable {
             double invoiceTax
     ) {
         this.invoiceID = invoiceID;
-        this.userAccountID = userAccountID;
+        this.orderHistoryID = orderHistoryID;
         this.orderID = orderID;
         this.paymentID = paymentID;
         this.orderDate = orderDate;
@@ -54,12 +54,12 @@ public class Invoice implements Serializable {
         this.invoiceID = invoiceID;
     }
 
-    public int getUserAccountID() {
-        return userAccountID;
+    public int getorderHistoryID() {
+        return orderHistoryID;
     }
 
-    public void setUserAccountID(int userAccountID) {
-        this.userAccountID = userAccountID;
+    public void setorderHistoryID(int orderHistoryID) {
+        this.orderHistoryID = orderHistoryID;
     }
 
     public int getOrderID() {

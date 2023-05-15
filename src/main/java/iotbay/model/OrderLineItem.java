@@ -12,7 +12,8 @@ public class OrderLineItem implements Serializable {
 
     }
 
-    public OrderLineItem(int itemQuantity, double itemTotal) {
+    public OrderLineItem(int productID, int itemQuantity, double itemTotal) {
+        this.productID = productID;
         this.itemQuantity = itemQuantity;
         this.itemTotal = itemTotal;
     }

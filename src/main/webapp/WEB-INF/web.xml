@@ -15,7 +15,7 @@
 
     <load-on-startup>0</load-on-startup>
 
-</ servlet>
+</servlet>
 
 <servlet-mapping>
 
@@ -23,7 +23,7 @@
 
 <url-pattern>ConnServlet </url-pattern>
 
-<servlet-mapping>
+</servlet-mapping>
 
     <session-config>
 

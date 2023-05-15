@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class Cart implements Serializable {
     private int cartID;
-    private int orderID;
+    private int userAccountID;
 
     public Cart() {
     }
 
     public Cart(int cartID, int orderID) {
         this.cartID = cartID;
-        this.orderID = orderID;
+        this.userAccountID = orderID;
     }
 
     public int getCartID() {
@@ -23,10 +23,10 @@ public class Cart implements Serializable {
     }
 
     public int getOrderID() {
-        return orderID;
+        return userAccountID;
     }
 
     public void setOrderID(int orderID) {
-        this.orderID = orderID;
+        this.userAccountID = orderID;
     }
 }

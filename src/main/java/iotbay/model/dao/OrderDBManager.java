@@ -1,9 +1,8 @@
 package iotbay.model.dao;
+import iotbay.model.CartItem;
 import iotbay.model.Order;
 import iotbay.model.OrderLineItem;
 import iotbay.model.UserAccount;
-import jakarta.json.JsonObject;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -19,31 +18,29 @@ public class OrderDBManager {
         this.conn = conn;
     }
 
-    public void createOrder(UserAccount userAccount, ArrayList<OrderLineItem> orderLineItems) throws SQLException {
+    public void createOrder(UserAccount userAccount, ArrayList<CartItem> cartItems) throws SQLException {
         // Is itemTotal already calculated as the sum of price * quantity?
-        double total = orderLineItems.stream().mapToDouble(i -> i.getItemTotal()).sum();
+//        double total = cartItems.stream().mapToDouble(i -> i.getCartItemTotal()).sum();
         prepStmt = conn.prepareStatement("INSERT INTO \"ORDER\" " +
                 "(userAccountID, addressID, paymentID, orderTotal, orderDate, orderStatus)" +
                 "VALUES (?, ?, ?, ?, ?, ?)");
         prepStmt.setInt(1, userAccount.getUserAccountID());
         prepStmt.setInt(2, userAccount.getAddressID());
         prepStmt.setInt(3, userAccount.getPaymentID());
-        prepStmt.setDouble(4, total);
+        prepStmt.setDouble(4, 0.0);
         prepStmt.setString(5, "Pending"); // Placeholder
         prepStmt.executeUpdate();
 
         rs = prepStmt.getGeneratedKeys();
         int orderID = rs.getInt(1);
 
-        prepStmt = conn.prepareStatement("INSERT INTO ORDERLINEITEM (ITEMID, ORDERID, PRODUCTID, ITEMQUANTITY, ITEMTOTAL)" +
-                "VALUES (?, ?, ?, ?, ?)");
+        prepStmt = conn.prepareStatement("INSERT INTO ORDERLINEITEM (ORDERID, PRODUCTID, ITEMQUANTITY, ITEMTOTAL)" +
+                "VALUES (?, ?, ?, ?)");
 
-        for(OrderLineItem lineItem : orderLineItems) {
-            prepStmt.setInt(1, lineItem.getItemID());
-            prepStmt.setInt(2, orderID);
-            prepStmt.setInt(3, lineItem.getProductID());
-            prepStmt.setInt(4, lineItem.getItemQuantity());
-            prepStmt.setDouble(5, lineItem.getItemTotal());
+        for(CartItem cartItem : cartItems) {
+            prepStmt.setInt(1, orderID);
+            prepStmt.setInt(2, cartItem.getProductID());
+            prepStmt.setInt(3, cartItem.getCartItemQuantity());
             prepStmt.executeUpdate();
         }
         conn.commit();
@@ -64,8 +61,15 @@ public class OrderDBManager {
         prepStmt.close();
         conn.close();
     }
-    public void addItem(String orderID, OrderLineItem item) throws SQLException {
-
+    public void addItem(int orderID, OrderLineItem item) throws SQLException {
+        prepStmt = conn.prepareStatement("INSERT INTO ORDERLINEITEM (ORDERID, PRODUCTID, ITEMQUANTITY, ITEMTOTAL)" +
+                                                 "VALUES (?, ?, ?, ?)");
+            prepStmt.setInt(1, orderID);
+            prepStmt.setInt(2, item.getProductID());
+            prepStmt.setInt(3, item.getItemQuantity());
+            prepStmt.setDouble(4, item.getItemTotal());
+            prepStmt.executeUpdate();
+        }
     }
     public void removeItem(String orderID, OrderLineItem item) throws SQLException {
 

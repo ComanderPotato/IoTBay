@@ -1,5 +1,7 @@
 package iotbay.model.dao;
 import iotbay.model.Customer;
+import iotbay.model.UserAccount;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -7,6 +9,7 @@ public class CustomerDBManager {
     private Statement stmt;
     private PreparedStatement prepStmt;
     private Connection conn;
+    ResultSet rs;
     public CustomerDBManager(Connection conn) throws SQLException {
         stmt = conn.createStatement();
         this.conn = conn;
@@ -72,5 +75,25 @@ public class CustomerDBManager {
             temp.add(new Customer(ID, email, password, fName, lName, dob, phone));
         }
         return temp;
+    }
+
+    public UserAccount findAssociatedAccount(int customerID) throws SQLException {
+        prepStmt = conn.prepareStatement("SELECT * FROM USERACCOUNT WHERE CUSTOMERID = ?");
+        prepStmt.setInt(1, customerID);
+
+        rs = prepStmt.executeQuery();
+
+        while(rs.next()) {
+            if(rs.getInt("customerID") == customerID) {
+                int userAccountID = rs.getInt("userAccountID");
+                int paymentID = rs.getInt("paymentID");
+                int orderHistoryID = rs.getInt("orderHistoryID");
+                int orderTrackingID = rs.getInt("orderTrackingID");
+                int addressID = rs.getInt("addressID");
+                int cartID = rs.getInt("cartID");
+                return new UserAccount(userAccountID, customerID, paymentID, orderHistoryID, orderTrackingID, addressID, cartID);
+            }
+        }
+        return null;
     }
 }

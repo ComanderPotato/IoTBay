@@ -1,6 +1,7 @@
 package iotbay.model.dao;
 import iotbay.model.UserAccount;
 import java.sql.*;
+import iotbay.model.dao.CartDBManager;
 import java.util.ArrayList;
 
 public class UserAccountDBManager {
@@ -21,23 +22,32 @@ public class UserAccountDBManager {
         rs = prepStmt.executeQuery();
 
         while(rs.next()) {
-            if(rs.getInt("ACCOUNTID") == userAccountID) {
+            if(rs.getInt("userAccountID") == userAccountID) {
                 int customerID = rs.getInt("customerID");
-                int registrationID = rs.getInt("registrationID");
                 int paymentID = rs.getInt("paymentID");
                 int orderHistoryID = rs.getInt("orderHistoryID");
-                int orderID = rs.getInt("orderID");
                 int orderTrackingID = rs.getInt("orderTrackingID");
                 int addressID = rs.getInt("addressID");
                 int cartID = rs.getInt("cartID");
-                return new UserAccount(userAccountID, customerID, registrationID, paymentID, orderHistoryID, orderID, orderTrackingID, addressID, cartID);
+                return new UserAccount(userAccountID, customerID, paymentID, orderHistoryID, orderTrackingID, addressID, cartID);
             }
         }
         return null;
     }
-    public void createAccount() throws SQLException {
+    public void createAccount(int customerID) throws SQLException {
+        prepStmt = conn.prepareStatement("INSERT INTO USERACCOUNT (CUSTOMERID) VALUES (?)");
+        prepStmt.setInt(1, customerID);
+        prepStmt.executeQuery();
 
+        rs = prepStmt.getGeneratedKeys();
+        int accountID;
+        if (rs.next()) {
+            accountID = rs.getInt(1);
+        } else {
+            throw new SQLException("Creating order failed, no ID obtained.");
+        }
     }
     public void deleteAccount(int userAccountID) throws SQLException {
+
     }
 }
