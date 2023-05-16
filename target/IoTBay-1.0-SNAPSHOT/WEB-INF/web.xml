@@ -7,23 +7,64 @@
 
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 
-<servlet>
+    <servlet>
+        <servlet-name>ConnServlet</servlet-name>
+        <servlet-class>iotbay.controller.ConnServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>ItemManagementController</servlet-name>
+        <servlet-class>iotbay.controller.ItemManagementController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchItemController</servlet-name>
+        <servlet-class>iotbay.controller.SearchItemController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SortItemController</servlet-name>
+        <servlet-class>iotbay.controller.SortItemController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddItemController</servlet-name>
+        <servlet-class>iotbay.controller.AddProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteItemController</servlet-name>
+        <servlet-class>iotbay.controller.DeleteItemController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditItemController</servlet-name>
+        <servlet-class>iotbay.controller.EditItemController</servlet-class>
+    </servlet>
 
-    <servlet-name>ConnServlet</servlet-name>
-
-    <servlet-class> iotbay.controller.ConnServlet </servlet-class>
-
-    <load-on-startup>0</load-on-startup>
-
-</servlet>
-
-<servlet-mapping>
-
-<servlet-name>ConnServlet </servlet-name>
-
-<url-pattern>ConnServlet </url-pattern>
-
-</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConnServlet</servlet-name>
+        <url-pattern>/ConnServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItemManagementController</servlet-name>
+        <url-pattern>/ItemManagementController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchItemController</servlet-name>
+        <url-pattern>/SearchItemController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SortItemController</servlet-name>
+        <url-pattern>/SortItemController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddItemController</servlet-name>
+        <url-pattern>/AddItemController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteItemController</servlet-name>
+        <url-pattern>/DeleteItemController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditItemController</servlet-name>
+        <url-pattern>/EditItemController</url-pattern>
+    </servlet-mapping>
 
     <session-config>
 

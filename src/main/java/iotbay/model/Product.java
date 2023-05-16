@@ -4,58 +4,48 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
     private int productID;
+    private String productName;
     private String productCategory;
     private String imageURL;
-    private String productName;
     private String productDescription;
     private double productCost;
-    private boolean productAvailability;
     private int productQuantity;
-    private String productBrand;
 
     public Product() {
     }
 
     public Product(
+            String productName,
             String productCategory,
             String imageURL,
-            String productName,
             String productDescription,
             double productCost,
-            boolean productAvailability,
-            int productQuantity,
-            String productBrand
+            int productQuantity
     ) {
+        this.productName = productName;
         this.productCategory = productCategory;
         this.imageURL = imageURL;
-        this.productName = productName;
         this.productDescription = productDescription;
         this.productCost = productCost;
-        this.productAvailability = productAvailability;
         this.productQuantity = productQuantity;
-        this.productBrand = productBrand;
     }
 
     public Product(
             int productID,
+            String productName,
             String productCategory,
             String imageURL,
-            String productName,
             String productDescription,
             double productCost,
-            boolean productAvailability,
-            int productQuantity,
-            String productBrand
+            int productQuantity
     ) {
         this.productID = productID;
+        this.productName = productName;
         this.productCategory = productCategory;
         this.imageURL = imageURL;
-        this.productName = productName;
         this.productDescription = productDescription;
         this.productCost = productCost;
-        this.productAvailability = productAvailability;
         this.productQuantity = productQuantity;
-        this.productBrand = productBrand;
     }
 
     public int getProductID() {
@@ -86,17 +76,11 @@ public class Product implements Serializable {
         return productName;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
 
     public String getProductDescription() {
         return productDescription;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
-    }
 
     public double getProductCost() {
         return productCost;
@@ -106,13 +90,7 @@ public class Product implements Serializable {
         this.productCost = productCost;
     }
 
-    public boolean isProductAvailable() {
-        return productAvailability;
-    }
 
-    public void setProductAvailability(boolean productAvailability) {
-        this.productAvailability = productAvailability;
-    }
 
     public int getProductQuantity() {
         return productQuantity;
@@ -122,11 +100,5 @@ public class Product implements Serializable {
         this.productQuantity = productQuantity;
     }
 
-    public String getProductBrand() {
-        return productBrand;
-    }
 
-    public void setProductBrand(String productBrand) {
-        this.productBrand = productBrand;
-    }
 }
