@@ -22,10 +22,8 @@ public class AccountManagementDBManager {
                 UserAccount user = new UserAccount();
                 user.setUserAccountID(foundID);
                 user.setCustomerID(rs.getInt("customerID"));
-                user.setRegistrationID(rs.getInt("registrationID"));
                 user.setPaymentID(rs.getInt("paymentID"));
                 user.setOrderHistoryID(rs.getInt("orderHistoryID"));
-                user.setOrderID(rs.getInt("orderID"));
                 user.setOrderTrackingID(rs.getInt("orderTrackingID"));
                 user.setAddressID(rs.getInt("addressID"));
                 user.setCardID(rs.getInt("cartID"));

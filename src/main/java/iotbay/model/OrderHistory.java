@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class OrderHistory implements Serializable {
     private int orderHistoryID;
-    private int invoiceID;
+    private int orderID;
 
     public OrderHistory() {
     }
 
-    public OrderHistory(int orderHistoryID, int invoiceID) {
+    public OrderHistory(int orderHistoryID, int orderID) {
         this.orderHistoryID = orderHistoryID;
-        this.invoiceID = invoiceID;
+        this.orderID = orderID;
     }
 
     public int getOrderHistoryID() {
@@ -23,10 +23,10 @@ public class OrderHistory implements Serializable {
     }
 
     public int getInvoiceID() {
-        return invoiceID;
+        return orderID;
     }
 
     public void setInvoiceID(int invoiceID) {
-        this.invoiceID = invoiceID;
+        this.orderID = orderID;
     }
 }

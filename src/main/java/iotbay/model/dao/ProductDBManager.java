@@ -77,6 +77,25 @@ public class ProductDBManager {
         conn.close();
         return temp;
     }
+    public Product findProduct(int productID) throws SQLException {
+            prepStmt = conn.prepareStatement("SELECT * FROM PRODUCT WHERE PRODUCTID = ?");
+            prepStmt.setInt(1, productID);
+            rs = prepStmt.executeQuery();
+            while(rs.next()) {
+                if(rs.getInt("productID") == productID) {
+                    String productCategory = rs.getString(2);
+                    String imageURL = rs.getString(3);
+                    String productName = rs.getString(4);
+                    String productDescription = rs.getString(5);
+                    double productCost = rs.getDouble(6);
+                    boolean productAvailability = rs.getBoolean(7);
+                    int productQuantity = rs.getInt(8);
+                    String productBrand = rs.getString(9);
+                    return new Product(productID, productCategory, imageURL, productName, productDescription, productCost, productAvailability, productQuantity, productBrand);
+                }
+            }
+            return null;
+    }
 //    public ArrayList<Product> findProductsByName(String productName) throws SQLException {
 //        prepStmt = conn.prepareStatement("SELECT * FROM PRODUCT WHERE PRODUCTNAME = ?");
 //        prepStmt.setString(1, productName);

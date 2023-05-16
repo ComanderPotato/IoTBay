@@ -37,7 +37,7 @@ public class UserAccountDBManager {
     public void createAccount(int customerID) throws SQLException {
         prepStmt = conn.prepareStatement("INSERT INTO USERACCOUNT (CUSTOMERID) VALUES (?)");
         prepStmt.setInt(1, customerID);
-        prepStmt.executeQuery();
+        prepStmt.executeUpdate();
 
         rs = prepStmt.getGeneratedKeys();
         int accountID;
@@ -46,6 +46,16 @@ public class UserAccountDBManager {
         } else {
             throw new SQLException("Creating order failed, no ID obtained.");
         }
+
+        CartDBManager cartDB = new CartDBManager(conn);
+        int cartID = cartDB.createCart(accountID);
+        prepStmt = conn.prepareStatement("UPDATE USERACCOUNT SET CARTID = ? WHERE USERACCOUNTID = ?");
+        prepStmt.setInt(1, cartID);
+        prepStmt.setInt(2, accountID);
+        prepStmt.executeUpdate();
+        prepStmt.close();
+        conn.close();
+
     }
     public void deleteAccount(int userAccountID) throws SQLException {
 

@@ -5,14 +5,19 @@ import java.io.Serializable;
 public class Cart implements Serializable {
     private int cartID;
     private int userAccountID;
-
+    private int anonID;
     public Cart() {
     }
 
-    public Cart(int cartID, int orderID) {
+    public Cart(int cartID, int userID, String userType) {
         this.cartID = cartID;
-        this.userAccountID = orderID;
+        if(userType.equals("registered")) {
+            this.userAccountID = userID;
+        } else {
+            this.anonID = userID;
+        }
     }
+
 
     public int getCartID() {
         return cartID;
@@ -22,11 +27,19 @@ public class Cart implements Serializable {
         this.cartID = cartID;
     }
 
-    public int getOrderID() {
+    public int getUserAccountID() {
         return userAccountID;
     }
 
-    public void setOrderID(int orderID) {
-        this.userAccountID = orderID;
+    public void setUserAccountID(int userAccountID) {
+        this.userAccountID = userAccountID;
+    }
+
+    public int getAnonID() {
+        return anonID;
+    }
+
+    public void setAnonID(int anonID) {
+        this.anonID = anonID;
     }
 }

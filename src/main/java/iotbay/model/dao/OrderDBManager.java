@@ -3,7 +3,11 @@ import iotbay.model.CartItem;
 import iotbay.model.Order;
 import iotbay.model.OrderLineItem;
 import iotbay.model.UserAccount;
+import iotbay.model.dao.ProductDBManager;
+import iotbay.model.Product;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class OrderDBManager {
@@ -28,7 +32,8 @@ public class OrderDBManager {
         prepStmt.setInt(2, userAccount.getAddressID());
         prepStmt.setInt(3, userAccount.getPaymentID());
         prepStmt.setDouble(4, 0.0);
-        prepStmt.setString(5, "Pending"); // Placeholder
+        prepStmt.setString(5, LocalDateTime.now().toString());
+        prepStmt.setString(6, "On Hold"); // Placeholder
         prepStmt.executeUpdate();
 
         rs = prepStmt.getGeneratedKeys();
@@ -37,24 +42,33 @@ public class OrderDBManager {
         prepStmt = conn.prepareStatement("INSERT INTO ORDERLINEITEM (ORDERID, PRODUCTID, ITEMQUANTITY, ITEMTOTAL)" +
                 "VALUES (?, ?, ?, ?)");
 
+        ProductDBManager db = new ProductDBManager(conn);
+        double total = 0.0;
         for(CartItem cartItem : cartItems) {
+            Product product = db.findProduct(cartItem.getProductID());
             prepStmt.setInt(1, orderID);
             prepStmt.setInt(2, cartItem.getProductID());
             prepStmt.setInt(3, cartItem.getCartItemQuantity());
+            prepStmt.setDouble(4, product.getProductCost() * cartItem.getCartItemQuantity());
+            total += product.getProductCost() * cartItem.getCartItemQuantity();
             prepStmt.executeUpdate();
         }
-        conn.commit();
+        prepStmt.close();
+        prepStmt = conn.prepareStatement("UPDATE \"ORDER\" SET ORDERTOTAL = ? WHERE ORDERID = ?");
+        prepStmt.setDouble(1, total);
+        prepStmt.setInt(2, orderID);
+        prepStmt.executeUpdate();
         prepStmt.close();
     }
     public void deleteOrder(int orderID) throws SQLException {
-        prepStmt = conn.prepareStatement("DELETE FROM ORDER WHERE ID = ?");
+        prepStmt = conn.prepareStatement("DELETE FROM \"ORDER\" WHERE ID = ?");
         prepStmt.setInt(1, orderID);
         prepStmt.executeUpdate();
         prepStmt.close();
         conn.close();
     }
     public void updateStatus(String status, int orderID) throws SQLException {
-        prepStmt = conn.prepareStatement("UPDATE ORDER SET ORDERSTATUS = ? WHERE ORDERID = ?");
+        prepStmt = conn.prepareStatement("UPDATE \"ORDER\" SET ORDERSTATUS = ? WHERE ORDERID = ?");
         prepStmt.setString(1, status);
         prepStmt.setInt(2, orderID);
         prepStmt.executeUpdate();
@@ -70,13 +84,13 @@ public class OrderDBManager {
             prepStmt.setDouble(4, item.getItemTotal());
             prepStmt.executeUpdate();
         }
-    }
+
     public void removeItem(String orderID, OrderLineItem item) throws SQLException {
 
     }
 
     public double orderTotal(int orderID) throws SQLException {
-        prepStmt = conn.prepareStatement("SELECT * FROM ORDER WHERE ORDERID = ?");
+        prepStmt = conn.prepareStatement("SELECT * FROM \"ORDER\" WHERE ORDERID = ?");
         prepStmt.setInt(1, orderID);
 
         rs = prepStmt.executeQuery();
@@ -95,24 +109,25 @@ public class OrderDBManager {
 
     // Should this get orders only for a specific user or all of them? Still a WIP
     public ArrayList<Order> getOrders() throws SQLException {
-        prepStmt = conn.prepareStatement("SELECT * FROM ORDER");
+        prepStmt = conn.prepareStatement("SELECT * FROM \"ORDER\"");
         ArrayList<Order> temp = new ArrayList<>();
         rs = prepStmt.executeQuery();
         while(rs.next()) {
             int orderID = rs.getInt("orderID");
-            int orderLineID = rs.getInt("orderLineID");
             int userAccountID = rs.getInt("userAccountID");
             int addressID = rs.getInt("addressID");
             int paymentID = rs.getInt("paymentID");
             double orderTotal = rs.getDouble("orderTotal");
             String orderDate = rs.getString("orderDate");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS");
+            LocalDateTime date = LocalDateTime.parse(orderDate, formatter);
             String orderStatus = rs.getString("orderStatus");
-            itemPrepStmt = conn.prepareStatement("SELECT * FROM ORDERLINEITEMS WHERE ORDERID = ?");
+            itemPrepStmt = conn.prepareStatement("SELECT * FROM ORDERLINEITEM WHERE ORDERID = ?");
             itemPrepStmt.setInt(1, orderID);
             ArrayList<OrderLineItem> orderItems = new ArrayList<>();
             itemRs = itemPrepStmt.executeQuery();
             OrderLineItemDBManager.getOrderLineItems(orderItems, itemRs);
-            temp.add(new Order(orderID, userAccountID, addressID, paymentID, orderTotal, orderDate, orderStatus, orderItems));
+            temp.add(new Order(orderID, userAccountID, addressID, paymentID, orderTotal, date, orderStatus, orderItems));
         }
         rs.close();
         prepStmt.close();

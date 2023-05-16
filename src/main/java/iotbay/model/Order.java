@@ -1,6 +1,7 @@
 package iotbay.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Order implements Serializable {
@@ -9,7 +10,7 @@ public class Order implements Serializable {
     private int addressID;
     private int paymentID;
     private double orderTotal;
-    private String orderDate;
+    private LocalDateTime orderDate;
     private String orderStatus;
     private ArrayList<OrderLineItem> orderLineItems;
 
@@ -17,7 +18,7 @@ public class Order implements Serializable {
 
     }
 
-    public Order(double orderTotal, String orderDate, String orderStatus) {
+    public Order(double orderTotal, LocalDateTime orderDate, String orderStatus) {
         this.orderTotal = orderTotal;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
@@ -29,7 +30,7 @@ public class Order implements Serializable {
             int addressID,
             int paymentID,
             double orderTotal,
-            String orderDate,
+            LocalDateTime orderDate,
             String orderStatus
     ) {
         this.orderID = orderID;
@@ -46,7 +47,7 @@ public class Order implements Serializable {
             int addressID,
             int paymentID,
             double orderTotal,
-            String orderDate,
+            LocalDateTime orderDate,
             String orderStatus,
             ArrayList<OrderLineItem> orderLineItems
             ) {
@@ -98,11 +99,11 @@ public class Order implements Serializable {
         this.orderTotal = orderTotal;
     }
 
-    public String getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(String orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -113,10 +114,10 @@ public class Order implements Serializable {
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
-    public ArrayList<OrderLineItem> getOrderLineItemID() {
+    public ArrayList<OrderLineItem> getOrderLineItem() {
         return orderLineItems;
     }
-    public void setOrderLineItemID(ArrayList<OrderLineItem> orderLineItemID) {
+    public void setOrderLineItem(ArrayList<OrderLineItem> orderLineItem) {
         this.orderLineItems = orderLineItems;
     }
 }

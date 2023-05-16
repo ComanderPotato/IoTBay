@@ -10,6 +10,6 @@ import java.sql.*;
  */
 public abstract class DB {
     protected String driver = "org.sqlite.JDBC";
-    protected String url = "jdbc:sqlite:/Users/tomgolding/IdeaProjects/IoTBay/iotbay.db";
+    protected String url = "jdbc:sqlite:C:\\Users\\Tom\\IdeaProjects\\IoTBay\\iotbay.db";
     protected Connection conn;
 }

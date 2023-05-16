@@ -25,11 +25,10 @@ public class CartDBManager {
         prepStmt.executeUpdate();
 
         rs = prepStmt.getGeneratedKeys();
-
         if (rs.next()) {
             return rs.getInt(1);
         } else {
-            throw new SQLException("Creating order failed, no ID obtained.");
+            throw new SQLException("Creating cart failed, no ID obtained.");
         }
     }
 }

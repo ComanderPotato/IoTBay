@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package iotbay.model;
 
 import java.io.Serializable;
@@ -12,6 +9,7 @@ import java.io.Serializable;
  */
 public class Customer implements Serializable {
     private int customerID;
+    private int registrationID;
     private String customerEmail;
     private String customerPassword;
     private String customerFirstName;
@@ -39,6 +37,7 @@ public class Customer implements Serializable {
     }
     public Customer(
             int customerID,
+            int registrationID,
             String customerEmail,
             String customerPassword,
             String customerFirstName,
@@ -47,6 +46,7 @@ public class Customer implements Serializable {
             String customerPhone
     ) {
         this.customerID = customerID;
+        this.registrationID = registrationID;
         this.customerEmail = customerEmail;
         this.customerPassword = customerPassword;
         this.customerFirstName = customerFirstName;
@@ -61,6 +61,14 @@ public class Customer implements Serializable {
 
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
+    }
+
+    public int getRegistrationID() {
+        return registrationID;
+    }
+
+    public void setRegistrationID(int registrationID) {
+        this.registrationID = registrationID;
     }
 
     public String getCustomerEmail() {

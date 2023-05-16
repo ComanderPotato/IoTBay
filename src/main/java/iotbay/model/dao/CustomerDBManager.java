@@ -1,6 +1,7 @@
 package iotbay.model.dao;
 import iotbay.model.Customer;
 import iotbay.model.UserAccount;
+import iotbay.model.dao.UserAccountDBManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class CustomerDBManager {
     }
 
     public void addCustomer
-            (
+            (int registrationID,
             String customerEmail,
             String customerPassword,
             String customerFirstName,
@@ -27,37 +28,52 @@ public class CustomerDBManager {
     {
         prepStmt = conn.prepareStatement(
                             "INSERT INTO CUSTOMER " +
-                                "(customerEmail, customerPassword, customerFirstName, " +
-                                "customerLastName, customerDOB, customerPhone) VALUES (?, ? ,? ,? ,? ,?);");
-        prepStmt.setString(1, customerEmail);
-        prepStmt.setString(2, customerPassword);
-        prepStmt.setString(3, customerFirstName);
-        prepStmt.setString(4, customerLastName);
-        prepStmt.setString(5, customerDOB);
-        prepStmt.setString(6, customerPhone);
+                                "(registrationID, customerEmail, customerPassword, customerFirstName, " +
+                                "customerLastName, customerDOB, customerPhone) VALUES (?, ? ,? ,? ,? , ?, ?);");
+        prepStmt.setInt(1, registrationID);
+        prepStmt.setString(2, customerEmail);
+        prepStmt.setString(3, customerPassword);
+        prepStmt.setString(4, customerFirstName);
+        prepStmt.setString(5, customerLastName);
+        prepStmt.setString(6, customerDOB);
+        prepStmt.setString(7, customerPhone);
         prepStmt.executeUpdate();
+
+        rs = prepStmt.getGeneratedKeys();
+        int customerID;
+        if (rs.next()) {
+            customerID = rs.getInt(1);
+        } else {
+            throw new SQLException("Creating order failed, no ID obtained.");
+        }
+        UserAccountDBManager userDB = new UserAccountDBManager(conn);
+        userDB.createAccount(customerID);
         prepStmt.close();
+        conn.close();
+
 
     }
     public Customer findCustomer(String email, String password) throws SQLException {
-        prepStmt = conn.prepareStatement("SELECT * FROM CUSTOMER WHERE EMAIL = ? AND PASSWORD = ?;");
+        prepStmt = conn.prepareStatement("SELECT * FROM CUSTOMER WHERE CUSTOMEREMAIL = ? AND CUSTOMERPASSWORD = ?;");
         prepStmt.setString(1, email);
         prepStmt.setString(2, password);
 
         ResultSet rs = prepStmt.executeQuery();
-        prepStmt.close();
         while(rs.next()) {
             String customerEmail = rs.getString("customerEmail");
             String customerPassword = rs.getString("customerPassword");
             if (email.equals(customerEmail) && password.equals(customerPassword)) {
                 int id = rs.getInt("customerID");
+                int regID = rs.getInt("registrationID");
                 String fName = rs.getString("customerFirstName");
                 String lName = rs.getString("customerLastName");
                 String dob = rs.getString("customerDOB");
                 String phone = rs.getString("customerPhone");
-                return new Customer(id, customerEmail, customerPassword, fName, lName, dob, phone);
+                prepStmt.close();
+                return new Customer(id, regID, customerEmail, customerPassword, fName, lName, dob, phone);
             }
         }
+        prepStmt.close();
         return null;
     }
     public ArrayList<Customer> getCustomers() throws SQLException {
@@ -66,13 +82,14 @@ public class CustomerDBManager {
 
         while(rs.next()) {
             int ID = rs.getInt("customerID");
+            int registrationID = rs.getInt("registrationID");
             String email = rs.getString("customerEmail");
             String password = rs.getString("customerPassword");
             String fName = rs.getString("customerFirstName");
             String lName = rs.getString("customerLastName");
             String dob = rs.getString("customerDOB");
             String phone = rs.getString("customerPhone");
-            temp.add(new Customer(ID, email, password, fName, lName, dob, phone));
+            temp.add(new Customer(ID, registrationID, email, password, fName, lName, dob, phone));
         }
         return temp;
     }
